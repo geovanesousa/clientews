@@ -44,8 +44,13 @@ public class OperacoesDeUsuario {
 			imagemExibidaByte = buffer.toByteArray();
 			u.setFoto(imagemExibidaByte);
 
+			/*
+			 * WebTarget target = client
+			 * .target("http://social-geovanesousa.rhcloud.com/usuario/inserir"
+			 * );
+			 */
 			WebTarget target = client
-					.target("http://social-geovanesousa.rhcloud.com/usuario/inserir");
+					.target("http://localhost:8080/social/usuario/inserir");
 			Response response = target.request().post(Entity.json(u));
 			String resposta = response.readEntity(String.class);
 			System.out.println(resposta);
@@ -77,8 +82,13 @@ public class OperacoesDeUsuario {
 		Usuario u = new Usuario();
 		u.setNomeUsuario("geovaneads");
 
+		/*
+		 * WebTarget target = client
+		 * .target("http://social-geovanesousa.rhcloud.com/usuario/nome_de_usuario"
+		 * );
+		 */
 		WebTarget target = client
-				.target("http://social-geovanesousa.rhcloud.com/usuario/nome_de_usuario");
+				.target("http://localhost:8080/social/usuario/nome_de_usuario");
 		try {
 			Response response = target.request().post(Entity.json(u));
 			Usuario resposta = response.readEntity(Usuario.class);
@@ -90,19 +100,54 @@ public class OperacoesDeUsuario {
 			bos.write(resposta.getFoto());
 			bos.close();
 			System.out.println("Usuário encontrado com sucesso!");
+			try {
+				int i = 0;
+				while (true) {
+					RedeSocial rede = resposta.getRedesSociais().get(i);
+					System.out.println("---------------------");
+					System.out.println(rede.getNomeRedeSocial());
+					System.out.println(rede.getNomeUsuario());
+					i++;
+				}
+			} catch (IndexOutOfBoundsException e) {
+
+			}
 		} catch (WebApplicationException e) {
 			System.out.println("Usuário não encontrado!");
 		} catch (ProcessingException e) {
 			System.out
 					.println("Falha ao se conectar com o serviço web! O serviço pode estar indisponivel.");
 		} catch (FileNotFoundException e) {
-			System.out.println("Erro ao salvar foto do usuário"
-					+ e.getMessage());
+			System.out.println("Erro na foto do usuário" + e.getMessage());
 		} catch (IOException e) {
-			System.out.println("Erro ao salvar foto do usuário"
-					+ e.getMessage());
+			System.out.println("Erro na foto do usuário" + e.getMessage());
 		}
 
+	}
+
+	public void inserirRedeSocial() {
+		Client client = ClientBuilder.newClient();
+		RedeSocial rede = new RedeSocial();
+		rede.setNomeRedeSocial("Whatsapp");
+		rede.setNomeUsuario("+5585997204989");
+		rede.setNomeUsuarioJoin("geovaneads");
+
+		try {
+			/*
+			 * WebTarget target = client
+			 * .target("http://social-geovanesousa.rhcloud.com/rede_inserir/inserir"
+			 * );
+			 */
+			WebTarget target = client
+					.target("http://localhost:8080/social/rede_social/inserir");
+
+			Response response = target.request().post(Entity.json(rede));
+			String resposta = response.readEntity(String.class);
+			System.out.println(resposta);
+		} catch (ProcessingException e) {
+			System.out.println("Falha ao se conectar com o serviço web! "
+					+ "O serviço pode estar indisponivel: " + e.getMessage());
+		}
 	}
 
 }

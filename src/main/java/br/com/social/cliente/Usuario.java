@@ -1,6 +1,8 @@
 package br.com.social.cliente;
 
 import java.util.Arrays;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -14,19 +16,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Usuario {
 
-	private Integer id;
+	private Long id;
 	private String nomeUsuario;
 	private String nomeCompleto;
 	private String biografia;
 	private String senha;
 	private String email;
 	private byte[] foto;
+	private List<RedeSocial> redesSociais;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -77,13 +80,22 @@ public class Usuario {
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
 	}
+	
+	public List<RedeSocial> getRedesSociais() {
+		return redesSociais;
+	}
+
+	public void setRedesSociais(List<RedeSocial> redesSociais) {
+		this.redesSociais = redesSociais;
+	}
 
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nomeUsuario=" + nomeUsuario
 				+ ", nomeCompleto=" + nomeCompleto + ", biografia=" + biografia
 				+ ", senha=" + senha + ", email=" + email + ", foto="
-				+ Arrays.toString(foto) + "]";
+				+ Arrays.toString(foto) + ", redesSociais=" + redesSociais
+				+ "]";
 	}
 
 }
